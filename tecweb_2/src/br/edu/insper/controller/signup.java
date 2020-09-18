@@ -39,6 +39,7 @@ public class signup extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		System.out.println("sevlet signup");
 		doGet(request, response);
 		
 		String nome = request.getParameter("nome");

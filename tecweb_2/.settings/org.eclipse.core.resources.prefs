@@ -2,6 +2,6 @@ eclipse.preferences.version=1
 encoding//WebContent/view/edit.jsp=UTF-8
 encoding//WebContent/view/index.html=UTF-8
 encoding//WebContent/view/main.jsp=UTF-8
-encoding//WebContent/view/signup.html=UTF-8
+encoding//WebContent/view/signup.jsp=UTF-8
 encoding//src/br/edu/insper/controller/login.java=UTF-8
 encoding//src/br/edu/insper/controller/signup.java=UTF-8

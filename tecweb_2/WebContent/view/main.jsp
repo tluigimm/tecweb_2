@@ -46,8 +46,7 @@
 		<table border="1">
 			<% for (Note note : notes) { 
 					String text = note.getNote();
-					int note_id = note.getId();
-					int importance = note.getImportance();%>
+					int note_id = note.getId();%>
 				<tr>
 					<td><%= note.getNote() %></td>
 					<td><%= note.getImportance() %></td>
@@ -59,10 +58,10 @@
 					<td><form action="main" method="post" >
 						<input type="hidden" name="action" value="edit"/>
 						<input type="hidden" name="note_id" value="<%=note_id%>"/>
+						<input type="hidden" name="text" value="<%=text%>"/>
 						<input type="hidden" name="user_id" value="<%=user_id%>"/>
 						<input type="hidden" name="userName" value="<%=nome%>"/>
-						<input type="hidden" name="newText" value="teste edição"/>
-						<input type="hidden" name=imp value="1"/>
+						<input type="hidden" name="status" value="editing">
 						<input type="submit" value="editar">
 					</form></td>
 					

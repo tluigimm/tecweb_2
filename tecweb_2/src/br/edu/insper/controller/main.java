@@ -78,6 +78,8 @@ public class main extends HttpServlet {
 			
 			request.setAttribute("user", user);
 			request.setAttribute("imp", 0);
+			RequestDispatcher  dispathcer = request.getRequestDispatcher("view/main.jsp");
+			dispathcer.forward(request, response);
 		} 
 		
 		else if (action.contentEquals("del")) {
@@ -92,35 +94,44 @@ public class main extends HttpServlet {
 			
 			request.setAttribute("user", user);
 			request.setAttribute("imp", 0);
+			RequestDispatcher  dispathcer = request.getRequestDispatcher("view/main.jsp");
+			dispathcer.forward(request, response);
 		} 
 		
 		else if (action.contentEquals("edit")) {
-			String text = request.getParameter("newText");
-			String userName = request.getParameter("userName");
-			Integer imp = Integer.parseInt(request.getParameter("imp"));
-			Integer user_id = Integer.parseInt(request.getParameter("user_id"));
-			Integer note_id = Integer.parseInt(request.getParameter("note_id"));
+			String status = request.getParameter("status");
+			Integer note_id = null;
 			
-			Note note = new Note();
-			note.setId(note_id);
-			note.setNote(text);
-			note.setImportance(imp);
+			System.out.println(status);
+			System.out.println(status.contentEquals("editing"));
+			System.out.println(status.contentEquals("editado"));
+			if (status.contentEquals("editing")) {
 			
-			dao.editNote(note);
+				String userName = request.getParameter("userName");
+				int user_id = Integer.parseInt(request.getParameter("user_id"));
+				note_id = Integer.parseInt(request.getParameter("note_id"));
+				String text = request.getParameter("text");
+				
+				RequestDispatcher  dispathcer = request.getRequestDispatcher("view/edit.jsp");
+				dispathcer.forward(request, response);
+			}
 			
-			User user = new User();
-			user.setId(user_id);
-			user.setName(userName);
-			
-			request.setAttribute("user", user);
-			request.setAttribute("imp", 0);
-			System.out.println("entrei no edit");
-		}
-		
-	
+			else if (status.contentEquals("editado")) {
+				String newText = request.getParameter("newText");
+				Integer imp = Integer.parseInt(request.getParameter("imp"));
+				note_id = Integer.parseInt(request.getParameter("note_id"));
 
-		RequestDispatcher  dispathcer = request.getRequestDispatcher("view/main.jsp");
-		dispathcer.forward(request, response);
+				Note note = new Note();
+				note.setId(note_id);
+				note.setNote(newText);
+				note.setImportance(imp);
+				
+				dao.editNote(note);
+				
+				doGet(request, response);
+				
+			}
+		}
 	}
 
 }

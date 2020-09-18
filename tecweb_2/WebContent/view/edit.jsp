@@ -16,7 +16,7 @@
 	</head>
 	<body>
 		<center><h1> Edite sua anotção </h1></center> <hr/>
-		
+		<%=note_id%>
 		<form action="main" method="post">
 			<input type="hidden" name="action" value="edit"/>
 			<textarea name="newText"rows="10" cols="30"><%=note%></textarea>
@@ -29,6 +29,7 @@
 			<input type="hidden" name="note_id" value="<%=note_id%>"/>
 			<input type="hidden" name="user_id" value="<%=user_id%>"/>
 			<input type="hidden" name="userName" value="<%=nome%>"/>
+			<input type="hidden" name="status" value="editado">
 			<input type="submit" value="confirmar mudança">
 		</form>
 	</body>

@@ -1,4 +1,4 @@
-package br.edu.insper;
+package br.edu.insper.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -8,6 +8,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import br.edu.insper.model.DAO;
 
 /**
  * Servlet implementation class signup
@@ -46,7 +48,8 @@ public class signup extends HttpServlet {
 		
 		dao.addUser(nome, passwd);
 		
-		response.sendRedirect(request.getContextPath() + "/index.html");
+		// response.sendRedirect(request.getContextPath() + "index.html");
+		request.getRequestDispatcher("view/index.html").forward(request, response);
 	}
 
 }

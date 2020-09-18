@@ -1,4 +1,4 @@
-package br.edu.insper;
+package br.edu.insper.model;
 
 public class Note {
 	private Integer id;

@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<%@ page import="java.util.*,br.edu.insper.*"%>
+		<%@ page import="java.util.*, br.edu.insper.model.*, br.edu.insper.controller.*"%>
 		<meta charset="UTF-8">
 		<title> Notas </title>
 	</head>
@@ -51,9 +51,21 @@
 				<tr>
 					<td><%= note.getNote() %></td>
 					<td><%= note.getImportance() %></td>
-					<td><a href="edit.jsp?text=<%=text%>&user_id=<%=user_id%>&note_id=<%=note_id%>&userName=<%=nome%>">
+					
+					<!-- <td><a href="view/edit.jsp?text=&user_id=&note_id=">
 						<button>edit</button>
-					</a></td>
+					</a></td> -->
+					
+					<td><form action="main" method="post" >
+						<input type="hidden" name="action" value="edit"/>
+						<input type="hidden" name="note_id" value="<%=note_id%>"/>
+						<input type="hidden" name="user_id" value="<%=user_id%>"/>
+						<input type="hidden" name="userName" value="<%=nome%>"/>
+						<input type="hidden" name="newText" value="teste edição"/>
+						<input type="hidden" name=imp value="1"/>
+						<input type="submit" value="editar">
+					</form></td>
+					
 					<td><form action="main" method="post">
 						<input type="hidden" name="action" value="del"/>
 						<input type="hidden" name="note_id" value="<%=note_id%>"/>

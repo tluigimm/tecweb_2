@@ -1,4 +1,4 @@
-package br.edu.insper;
+package br.edu.insper.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -9,6 +9,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import br.edu.insper.model.DAO;
+import br.edu.insper.model.Note;
+import br.edu.insper.model.User;
 
 /**
  * Servlet implementation class main
@@ -45,7 +49,7 @@ public class main extends HttpServlet {
 		
 		request.setAttribute("user", user);
 		request.setAttribute("imp", imp);
-		request.getRequestDispatcher("main.jsp").forward(request, response);
+		request.getRequestDispatcher("view/main.jsp").forward(request, response);
 	
 	}
 
@@ -58,6 +62,8 @@ public class main extends HttpServlet {
 		DAO dao = new DAO();
 		
 		String action = request.getParameter("action");
+		
+		System.out.println(action);
 		
 		if (action.contentEquals("add")) {
 			String nota = request.getParameter("nota");
@@ -108,10 +114,12 @@ public class main extends HttpServlet {
 			
 			request.setAttribute("user", user);
 			request.setAttribute("imp", 0);
+			System.out.println("entrei no edit");
 		}
 		
+	
 
-		RequestDispatcher  dispathcer = request.getRequestDispatcher("/main.jsp");
+		RequestDispatcher  dispathcer = request.getRequestDispatcher("view/main.jsp");
 		dispathcer.forward(request, response);
 	}
 

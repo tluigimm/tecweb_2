@@ -38,17 +38,22 @@ public class main extends HttpServlet {
 		
 		DAO dao = new DAO();
 		
-		Integer imp = Integer.parseInt(request.getParameter("imp"));
 		Integer user_id = Integer.parseInt(request.getParameter("user_id"));
 		String userName = request.getParameter("userName");
-		dao.getNotes(user_id, imp);
+		
+		String busca = request.getParameter("textBusca");
+		Integer imp = Integer.parseInt(request.getParameter("imp"));
+
+		System.out.println("entramos no order");
+		request.setAttribute("imp", imp);
+
 		
 		User user = new User();
 		user.setId(user_id);
 		user.setName(userName);
 		
 		request.setAttribute("user", user);
-		request.setAttribute("imp", imp);
+		request.setAttribute("busca", busca);
 		request.getRequestDispatcher("view/main.jsp").forward(request, response);
 	
 	}
@@ -62,8 +67,6 @@ public class main extends HttpServlet {
 		DAO dao = new DAO();
 		
 		String action = request.getParameter("action");
-		
-		System.out.println(action);
 		
 		if (action.contentEquals("add")) {
 			String nota = request.getParameter("nota");

@@ -1,3 +1,5 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -8,7 +10,7 @@
 	
 		<center> <h1> Log in</h1> </center> <hr/>
 		
-		<center><form action="login" method="post">
+		<center><form action="${pageContext.request.contextPath}/login" method="post">
 			usuário: <input type="text" name="nome"/></br/>
 			senha: <input type="password" name="passwd"/></br/>
 			<input type="submit" value="Enter">

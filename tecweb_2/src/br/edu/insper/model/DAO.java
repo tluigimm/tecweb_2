@@ -68,71 +68,134 @@ public class DAO {
 		}
 	}
 	
-	public List<Note> getNotes(Integer user_id, Integer imp){
+	public List<Note> getNotes(Integer user_id, Integer imp, String busca){
 		List<Note> notes = new ArrayList<Note>();
 
 		PreparedStatement stmt;
 		String query = null;
-		
-		if (imp == 0) {
-			query = "SELECT * FROM Note "
-					+ "WHERE user_id=?";
-			
-			try {
-				stmt = connection.
-						prepareStatement(query);
-				stmt.setInt(1, user_id);
-				ResultSet rs = stmt.executeQuery();
-				
-				while (rs.next()) {
-					Note note = new Note();
-					note.setId(rs.getInt("id"));
-					note.setNote(rs.getString("note"));
-					note.setUser_id(rs.getInt("user_id"));
-					note.setImportance(rs.getInt("importance"));
-					notes.add(note);
-				}
-				rs.close();
-				stmt.close();
-			}catch (SQLException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-			}
 
-		}else {
-			if (imp==2) {
+		if(busca==null || busca.isBlank() || busca.isEmpty()) {
+			if (imp == 0) {
+				
 				query = "SELECT * FROM Note "
-						+ "WHERE user_id=? "
-						+ "ORDER BY importance DESC;";
+						+ "WHERE user_id=?";
+				
+				try {
+					stmt = connection.
+							prepareStatement(query);
+					stmt.setInt(1, user_id);
+					ResultSet rs = stmt.executeQuery();
+					
+					while (rs.next()) {
+						Note note = new Note();
+						note.setId(rs.getInt("id"));
+						note.setNote(rs.getString("note"));
+						note.setUser_id(rs.getInt("user_id"));
+						note.setImportance(rs.getInt("importance"));
+						notes.add(note);
+					}
+					rs.close();
+					stmt.close();
+				}catch (SQLException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+				}
+	
 			}else {
-				query = "SELECT * FROM Note "
-						+ "WHERE user_id=? "
-						+ "ORDER BY importance ASC;";
-			}
-		
-			try {
-				stmt = connection.
-						prepareStatement(query);
-				stmt.setInt(1, user_id);
-
-				ResultSet rs = stmt.executeQuery();
-				
-				while (rs.next()) {
-					Note note = new Note();
-					note.setId(rs.getInt("id"));
-					note.setNote(rs.getString("note"));
-					note.setUser_id(rs.getInt("user_id"));
-					note.setImportance(rs.getInt("importance"));
-					notes.add(note);
+				if (imp==2) {
+					query = "SELECT * FROM Note "
+							+ "WHERE user_id=? "
+							+ "ORDER BY importance DESC;";
+				}else {
+					query = "SELECT * FROM Note "
+							+ "WHERE user_id=? "
+							+ "ORDER BY importance ASC;";
 				}
-				rs.close();
-				stmt.close();
-			}catch (SQLException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+			
+				try {
+					stmt = connection.
+							prepareStatement(query);
+					stmt.setInt(1, user_id);
+	
+					ResultSet rs = stmt.executeQuery();
+					
+					while (rs.next()) {
+						Note note = new Note();
+						note.setId(rs.getInt("id"));
+						note.setNote(rs.getString("note"));
+						note.setUser_id(rs.getInt("user_id"));
+						note.setImportance(rs.getInt("importance"));
+						notes.add(note);
+					}
+					rs.close();
+					stmt.close();
+				}catch (SQLException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+				}
+			}
+		}else {
+			if (imp == 0) {
+				
+				query = "SELECT * FROM Note "
+						+ "WHERE (note LIKE ? && user_id=?) ";
+				
+				try {
+					stmt = connection.
+							prepareStatement(query);
+					stmt.setInt(2, user_id);
+					stmt.setString(1, "%" + busca + "%");
+					ResultSet rs = stmt.executeQuery();
+					
+					while (rs.next()) {
+						Note note = new Note();
+						note.setId(rs.getInt("id"));
+						note.setNote(rs.getString("note"));
+						note.setUser_id(rs.getInt("user_id"));
+						note.setImportance(rs.getInt("importance"));
+						notes.add(note);
+					}
+					rs.close();
+					stmt.close();
+				}catch (SQLException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+				}
+	
+			}else {
+				if (imp==2) {
+					query = "SELECT * FROM Note "
+							+ "WHERE (note LIKE ? && user_id=?) "
+							+ "ORDER BY importance DESC;";
+				}else {
+					query = "SELECT * FROM Note "
+							+ "WHERE (note LIKE ? && user_id=?) "
+							+ "ORDER BY importance ASC;";
+				}
+			
+				try {
+					stmt = connection.
+							prepareStatement(query);
+					stmt.setInt(2, user_id);
+					stmt.setString(1, "%" + busca + "%");
+					ResultSet rs = stmt.executeQuery();
+					
+					while (rs.next()) {
+						Note note = new Note();
+						note.setId(rs.getInt("id"));
+						note.setNote(rs.getString("note"));
+						note.setUser_id(rs.getInt("user_id"));
+						note.setImportance(rs.getInt("importance"));
+						notes.add(note);
+					}
+					rs.close();
+					stmt.close();
+				}catch (SQLException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+				}
 			}
 		}
-
 		return notes;
 
 	}
@@ -195,5 +258,38 @@ public class DAO {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	public List<Note> buscaNota(String text, int user_id) {
+		PreparedStatement stmt;
+		
+		List<Note> notes = new ArrayList<Note>();
+		
+		String query = "SELECT * FROM Note WHERE note LIKE ? && user_id=?;";
+		
+		try {
+			stmt = connection.
+					prepareStatement(query);
+			stmt.setString(1, "'%" + text + "%'");
+			stmt.setInt(2, user_id);
+			stmt.execute();
+			ResultSet rs = stmt.executeQuery();
+			
+			while (rs.next()) {
+				Note note = new Note();
+				note.setId(rs.getInt("id"));
+				note.setNote(rs.getString("note"));
+				note.setUser_id(rs.getInt("user_id"));
+				note.setImportance(rs.getInt("importance"));
+				notes.add(note);
+			}
+			rs.close();
+			stmt.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return notes;
 	}
 }

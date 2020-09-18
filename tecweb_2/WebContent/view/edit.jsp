@@ -16,7 +16,6 @@
 	</head>
 	<body>
 		<center><h1> Edite sua anotção </h1></center> <hr/>
-		<%=note_id%>
 		<form action="main" method="post">
 			<input type="hidden" name="action" value="edit"/>
 			<textarea name="newText"rows="10" cols="30"><%=note%></textarea>

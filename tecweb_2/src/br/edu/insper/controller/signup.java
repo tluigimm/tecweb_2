@@ -49,8 +49,7 @@ public class signup extends HttpServlet {
 		
 		dao.addUser(nome, passwd);
 		
-		// response.sendRedirect(request.getContextPath() + "index.html");
-		request.getRequestDispatcher("view/index.html").forward(request, response);
+		request.getRequestDispatcher("view/index.jsp").forward(request, response);
 	}
 
 }

@@ -15,8 +15,16 @@
 			String nome = user.getName();
 			Integer user_id = user.getId();
 			
-		 	List<Note> notes = dao.getNotes(user.getId(), imp); 
+			String action = (String) request.getAttribute("action");
+			List<Note> notes = new ArrayList<Note>();
+			
+			System.out.println(action);
+	 		String busca = (String) request.getAttribute("busca");
+
+	 		notes = dao.getNotes(user.getId(), imp, busca);
+	
 		%>
+		<a href="view/index.jsp"><button>exit</button></a>
 		<center><h1> Olá <%= nome %> </h1></center> <hr/>
 		
 		<form action="main" method="post">
@@ -33,10 +41,16 @@
 		</form>
 		
 		<form action="main" method="get">
-			ordenar por:	
+			buscar nota:
+			<% if (busca!=null){ %>
+				<textarea type="text" name="textBusca"><%=busca%></textarea>
+			<%} else{%>
+				<textarea type="text" name="textBusca"></textarea>
+			<%}%>
 			<select name="imp">
 				<option value="1">mais importante</option>
 				<option value="2">menos importante</option>
+				<option value="0">irrelevante</option>
 			</select>
 			<input type="hidden" name="user_id" value="<%=user_id%>"/>
 			<input type="hidden" name="userName" value="<%=nome%>"/>
@@ -50,10 +64,6 @@
 				<tr>
 					<td><%= note.getNote() %></td>
 					<td><%= note.getImportance() %></td>
-					
-					<!-- <td><a href="view/edit.jsp?text=&user_id=&note_id=">
-						<button>edit</button>
-					</a></td> -->
 					
 					<td><form action="main" method="post" >
 						<input type="hidden" name="action" value="edit"/>

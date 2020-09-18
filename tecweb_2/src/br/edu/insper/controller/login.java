@@ -68,6 +68,7 @@ public class login extends HttpServlet {
 		if(isUser) {
 			request.setAttribute("user", newUser);
 			request.setAttribute("imp", 0);
+			request.setAttribute("action", "ordena");
 			request.getRequestDispatcher("view/main.jsp").forward(request, response);
 		}else {
 			out.println("informações invalidas");
